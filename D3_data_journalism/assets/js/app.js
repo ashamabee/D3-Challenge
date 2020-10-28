@@ -71,7 +71,7 @@ d3.csv("assets/data/data.csv").then(function(Data) {
 
 
     // Came back to add state abbreviations
-
+    // (above but didn't work)
     
 
     // Step 6: Initialize tool tip
