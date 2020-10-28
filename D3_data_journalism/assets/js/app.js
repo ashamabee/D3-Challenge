@@ -33,11 +33,11 @@ d3.csv("assets/data/data.csv").then(function(Data) {
     // Step 2: Create scale functions
     // ==============================
     var xLinearScale = d3.scaleLinear()
-      .domain([20, d3.max(Data, d => d.obesity)])
+      .domain([20, d3.max(Data, d => d.income)])
       .range([0, width]);
 
     var yLinearScale = d3.scaleLinear()
-      .domain([0, d3.max(Data, d => d.income)])
+      .domain([0, d3.max(Data, d => d.obesity)])
       .range([height, 0]);
 
     // Step 3: Create axis functions
@@ -60,11 +60,19 @@ d3.csv("assets/data/data.csv").then(function(Data) {
     .data(Data)
     .enter()
     .append("circle")
-    .attr("cx", d => xLinearScale(d.obesity))
-    .attr("cy", d => yLinearScale(d.income))
+    .attr("cx", d => xLinearScale(d.income))
+    .attr("cy", d => yLinearScale(d.obesity))
     .attr("r", "15")
-    .attr("fill", "pink")
-    .attr("opacity", ".5");
+    .attr("fill", "blue")
+    .attr("opacity", ".5")
+    .enter()
+    .append('text')
+    .text(d => d.abbr);
+
+
+    // Came back to add state abbreviations
+
+    
 
     // Step 6: Initialize tool tip
     // ==============================
@@ -81,12 +89,12 @@ d3.csv("assets/data/data.csv").then(function(Data) {
 
     // Step 8: Create event listeners to display and hide the tooltip
     // ==============================
-    circlesGroup.on("click", function(data) {
-      toolTip.show(data, this);
+    circlesGroup.on("click", function(Data) {
+      toolTip.show(Data, this);
     })
       // onmouseout event
-      .on("mouseout", function(data, index) {
-        toolTip.hide(data);
+      .on("mouseout", function(Data, index) {
+        toolTip.hide(Data);
       });
 
     // Create axes labels
@@ -96,12 +104,12 @@ d3.csv("assets/data/data.csv").then(function(Data) {
       .attr("x", 0 - (height / 2))
       .attr("dy", "1em")
       .attr("class", "aText")
-      .text("Income");
+      .text("Obesity");
 
     chartGroup.append("text")
       .attr("transform", `translate(${width / 2}, ${height + margin.top + 30})`)
       .attr("class", "aText")
-      .text("Obesity");
+      .text("Income");
   }).catch(function(error) {
     console.log(error);
   });
